@@ -127,21 +127,29 @@ def downloadArticles(url,category,config,outputDir,max_number,regex_for_links,ta
         downloadFile(article,category,config,outputDir,'',tags)
 
 def downloadFeed(feed,category,config,outputDir,max_number,tags):
-            print('download from feed:' + feed)
+    print('download from feed:' + feed)
+    try:
             d = feedparser.parse(feed)
-            for entry in d.entries[:max_number]:
-                print('entry:' + entry.title + ' ' + entry.link)
-                #today = datetime.today()
-                #days_ago = today - timedelta(days=max_days)
-                #d = datetime(entry.published_parsed)
-                #if(d < days_ago):
-                #    continue
-                date = ''
-                try:
-                    date = entry.published
-                except Exception as e:
-                    print(e)
-                downloadFile(entry.link,category,config,outputDir,date,tags)
+    except Exception as e:
+            print(e)
+            return
+ 
+    for entry in d.entries[:max_number]:
+      try:
+        print('entry:' + entry.title + ' ' + entry.link)
+        #today = datetime.today()
+        #days_ago = today - timedelta(days=max_days)
+        #d = datetime(entry.published_parsed)
+        #if(d < days_ago):
+        #    continue
+        date = ''
+        try:
+            date = entry.published
+        except Exception as e:
+            print(e)
+        downloadFile(entry.link,category,config,outputDir,date,tags)
+      except Exception as e:
+        print(e)
 
 def downloadByConfig(urls,config,outputDir,max_number):
   print('download from config')
