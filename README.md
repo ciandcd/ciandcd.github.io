@@ -75,7 +75,7 @@ http://twitter.github.com/bootstrap
 
 ##开发环境   
 1. prod环境请参考.travis.yml.     
-2. 本地测试环境       　　
+2. 本地测试环境          　　
 *make clean && make html     
 *make devserver, or 'cd output && python -m http.server 8000'.        
 
