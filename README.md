@@ -7,11 +7,11 @@ Title:about
 [![Build Status](https://travis-ci.org/ciandcd/ciandcd-web.svg?branch=master)](https://travis-ci.org/ciandcd/ciandcd-web/)  
 
 ##关于ciandcd.com  
-本网站使用github pages技术维护，主要关注软件持续集成和持续发布，欢迎大家提供优秀的相关文章。  
+本网站使用github pages技术维护，自动抓取国外最新的软件持续集成和持续发布相关文章。   
 
-##投稿（目前不接受投稿，投稿可以直接到ciandcd.com）
-1. fork本网站源码:https://github.com/ciandcd/ciandcd.github.io.git
-2. 将你的文章放到content/category/下对应的子目录中, 如果是原创文章可以放到content/category/原创.　　
+##投稿（目前不接受投稿，投稿可以直接到ciandcd.com）   
+1. fork本网站源码:https://github.com/ciandcd/ciandcd.github.io.git   
+2. 将你的文章放到content/category/下对应的子目录中, 如果是原创文章可以放到content/category/原创.　　  
 3. 文章的格式可以为markdown，restructuredtext或html。  
 4. 提交你的文章。  
 5. 你也可以通过QQ群来提供相关的rss feed。  
@@ -73,11 +73,11 @@ https://github.com/codelucas/newspaper
 https://github.com/getpelican/pelican  
 http://twitter.github.com/bootstrap  
 
-##开发环境
-1. prod环境请参考.travis.yml.  
-2. 本地测试环境　　
-*make clean && make html  
-*make devserver, or 'cd output && python -m http.server 8000'.  
+##开发环境   
+1. prod环境请参考.travis.yml.     
+2. 本地测试环境       　　
+*make clean && make html     
+*make devserver, or 'cd output && python -m http.server 8000'.        
 
 ##自动deploy
 1. 所有的修改会被trivs CI自动build和deploy到github pages.  
