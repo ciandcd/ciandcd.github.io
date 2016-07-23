@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Author: About The Author - news.ciandcd.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="http://ciandcd.github.io/theme/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/main.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet" type="text/css"/>
+
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_content.js"></script>
+<link href="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
+<link href="http://ciandcd.github.io/feeds/rss.xml" rel="alternate" type="application/atom+xml" title="news.ciandcd.com RSS" />
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch({
+          'mode': 'json',
+          'contentLocation': 'tipuesearch_content.json'
+     });
+});
+</script>
+
+       <link href="http://ciandcd.github.io/helix-dvcs-push-like-a-pro.html" rel="bookmark"/>
+     
+
+
+  <!--[if lt IE 9]>
+    <script src="https://raw.github.com/aFarkas/html5shiv/master/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<!--
+bootstrap-itech - a Pelican theme using Bootstrap
+-->
+<body>
+
+<!-- Header -->
+<header>
+<div class="container-fluid">
+<h1 class="page-header"><a href="http://ciandcd.github.io/index.html">news.ciandcd.com </a>
+<h4>软件持续集成和发布</h4></h1>
+</div>
+</header>
+<!-- /Header -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://ciandcd.github.io/index.html"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+  <li><a href="http://ciandcd.github.io/index.html">首页</a></li>
+
+  <li ><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li ><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+
+  
+    <li ><a href="http://ciandcd.github.io/pages/about.html">about</a></li>
+    <li ><a href="http://ciandcd.github.io/pages/awesome.html">Awesome</a></li>
+
+
+</ul>
+      <form class="navbar-form navbar-left navbar-search" role="search" action="http://ciandcd.github.io/search.html onsubmit="return validateForm(this.elements['q'].value);">
+        <div class="form-group search-query">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://www.cnblogs.com/itech">itech</a></li>
+        <li><a href="https://github.com/ciandcd">Github</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- Body -->
+<section id="body">
+<div class="container">
+
+<!-- Nav bar -->
+<!-- /Nav bar -->
+
+<!-- Main block -->
+<div class="row">
+
+<!-- Content -->
+<div class="col-lg-9">
+<h3 class="well well-small">Author: About The Author</h3>
+
+
+      <article>
+      <h1><a href="http://ciandcd.github.io/helix-dvcs-push-like-a-pro.html" rel="bookmark">
+    Helix DVCS - Push Like a Pro</a></h1>
+
+      From:<a href="https://www.perforce.com/blog/160718/helix-dvcs-push-pro">https://www.perforce.com/blog/160718/helix-dvcs-push-pro</a><br><br><div><h1>Helix DVCS &#8211; Push Like a Pro</h1>
+<p><img alt="" src="/sites/default/files/DVCSarticleimage.jpg"></p>
+<p>This post was a long time coming, but we are a bit busy at the moment. Nevertheless: if you read my previous posts on DVCS, you are probably curious how to push your changes to a remote server.</p>
+<h2>&#160;</h2>
+<h2>Push</h2>
+<p>You should all have successfully created local servers by now, either through an init or a clone. It is time to share your magnum opus with the rest of the world.</p>
+<pre>            p4 push</pre><p>There! That wasn&#8217;t that hard, was it?</p>
+<p>Yes, I admit, there is a lot more magic going on in the background to make sure this command works as simple as that. So let&#8217;s review the settings to guarantee success.</p>
+<h2>&#160;</h2>
+<h2>Prerequisites</h2>
+<p>First of all, your local server must have matching case sensitivity and Unicode settings to be able to push to another Helix server. If you cloned from that server you are fine, but if you initialised your independent copy first, you should use the &#8220;-p&#8221; option to extract the settings from the target or specify them by hand. Reread the &#8220;<a href="https://www.perforce.com/blog/150610/helix-dvcs-initialization-tips-tricks">initialise like a pro</a>&#8221; post if you are unsure.</p>
+<p>You also have to have permission to push your changes and the target has to be configured to accept your changes (&#8220;<a href="https://www.perforce.com/blog/151111/helix-dvcs-administer-pro">administer like a pro</a>&#8221; post).</p>
+<h2>&#160;</h2>
+<h2>Remote spec</h2>
+<p>You need to have a remote spec with the name &#8220;origin&#8221; defined that maps your local files to the correct location on the target server. If you cloned your repository, this remote will have been created for you automatically, otherwise you need to set up this remote.</p>
+<p>If you remote is not called &#8220;origin&#8221;, or if you want to push to a different server, you need to specify the remote explicitly.</p>
+<pre>            p4 push &#8211;r &lt;remote-name&gt;</pre><h2>&#160;</h2>
+<h2>Remote user</h2>
+<p>You need to be logged into the remote server, that is, have a valid ticket. If you remember the discussion about users in remote servers from the &#8220;<a href="https://www.perforce.com/blog/150610/helix-dvcs-initialization-tips-tricks">initialise</a>&#8221; post, you know that your local user and your remote user do not have to coincide. Since my original post, the remote spec has picked up a new field: remoteUser.</p>
+<p>In my case, if I want to push anything into the workshop, I tend to do that under the user &#8220;sven_erik_knop&#8221;, while my local user is &#8220;sknop&#8221;. Now I simply update my remote spec (&#8220;p4 remote origin&#8221; or &#8220;p4 remote &lt;remote spec&gt;&#8221;) and set &#8220;RemoteUser: sven_erik_knop&#8221; and login to the remote server with</p>
+<pre>p4 login &#8211;r &lt;remote-spec&gt;</pre><p>If you are using 2016.1 P4 and P4D, you may have noticed a new feature: if you do not have a valid ticket, then P4 will prompt you for a password automatically when you issue a command; after successful authentication, P4 will proceed immediately.&#160; This is very handy when pushing to a remote server &#8211; no need for a separate login.</p>
+<p>A push can fail if you have changes waiting for you in the target codeline on the remote server. In that case, you will need to fetch and potentially merge those changes first; but this is a topic for the next post.</p>
+<p>Finally, your push is not permitted if you have unsubmitted changes in your server. This can happen because you forgot to submit your local changes &#8211; or because you need to run a resubmit because of a previous unsubmit &#8211; also a topic for a separate post.</p>
+<p>If all these prerequisites are met, the push command will (finally) succeed as planned.</p>
+<h2>&#160;</h2>
+<h2>Details on push</h2>
+<p>What is it we are actually pushing? How do we know which changes need to be pushed and what happens to the change numbers themselves? And what about integrations, attributes, labels and fixes?</p>
+<p>Let&#8217;s look at these questions a little more in detail.</p>
+<h2>&#160;</h2>
+<h2>What is it we are actually pushing?</h2>
+<p>When you run &#8216;p4 push&#8217;, you will push changes, revisions and archives, together with potential integration records, attributes and job fixes. As part of a change, the user name, server id (recorded as the client workspace name), timestamps and of course the description are pushed to the remote server.</p>
+<h2>&#160;</h2>
+<h2>How do we know what to push?</h2>
+<p>Have a look at your remote spec. It contains the fields &#8220;LastFetch&#8221; and &#8220;LastPush&#8221;, both of which either contain the word &#8220;default&#8221; or a change number. LastFetch contains the last change you pulled down from the remote server (more about this in the next post), LastPush is the last local change you have pushed to that remote server.</p>
+<p>Determining what needs to be pushed is then simply a matter of comparing the latest change number with LastPush, and transmitting all changes not previously pushed.</p>
+<p>If you run &#8216;p4 help push&#8217; you can see that there a couple of interesting options for this command. You can push individual streams (remember that local DVCS servers are always stream based, even if the remote server is not). You can push individual changes and even individual files.</p>
+<p>In both cases, the LastPush field does not get updated. Instead, push will determine which changes have already made it to the remote and ignore these changes. Only when all changes are pushed up does the local server update the field as well.</p>
+<p>If you want to know more details about which changes are pushed and which are ignored, run the push command with the verbose (-v) option. This option will also give you details about the resources consumed for the push:</p>
+<pre>Change 1840 was already present in the target repository.
+
+Change 1841 imported as change 101354.
+
+Resource usage: qry/zip/db/arch/fin/tot=4ms/0ms/7ms+1.1K/13ms+22B/8ms/34ms</pre><h2>&#160;</h2>
+<h2>What happens to the change numbers?</h2>
+<p>The output for the change 1841 was interesting: the change was imported as change 101354. What is going on here?</p>
+<p>The point about DVCS is that you are normally not connected to the remote server, sitting in a plane or on a train instead. So local change numbers and change numbers on the remote server will diverge (remember that in Perforce Helix change numbers are strictly monotonic increasing).</p>
+<p>When I push a change from my local server to the remote server, the change will usually be renumbered. This is similar to Mercurial (which locally uses strictly monotonic increasing changes as well) but quite different from Git, which insists on SHA hash numbers as a globally unique identifier of a change. This does not make sense for Perforce Helix &#8211; since I can push part of a change or individual files, the SHA has no meaning.</p>
+<p>Nonetheless, there is a way to link a remote change to a local change, by setting a local configurable: submit.identity.</p>
+<p>This configurable can be set to one of three different strategies:</p>
+<h3>&#160;</h3>
+<h3>UUID</h3>
+<p>A unique identifier created as a random number (it is a type 4 UUID). The UUID is created using a small, fast pseudo-random number generator (PRNG), which guarantees uniqueness to a high degree but is not necessarily sufficient for cryptography.</p>
+<h3>Checksum</h3>
+<p>This is an MD5 checksum hashed over the details of the change, including depot path, timestamp, content and revision of each file in the change, so two users submitting identical files with identical content will still get different checksums.</p>
+<h3>Serverid</h3>
+<p>This is a concatenation of your local server.id (that is, typically your local workspace name) and your local change number.</p>
+<p>The change identity is stored in your local change in the field Identity, which will be pushed to the remote server.</p>
+<p>You can use the command &#8220;p4 describe &#8211;I &lt;identity&gt;&#8221; to find a change with a given identity.</p>
+<p>Which strategy you use is up to you. Why don&#8217;t you let us know which option is most useful to you?</p>
+<h2>&#160;</h2>
+<h2>What happens to integrations?</h2>
+<p>Just like in the &#8216;p4 clone&#8217; case, integrations within the view of a remote spec are pushed. To preserve integrations between streams, make sure to map source and target stream in your remote spec.</p>
+<p>If one-half of the integration is not mapped, the integration will be downgraded to add/edit/delete in the remote server upon push.</p>
+<p>Most importantly, renames within a stream are preserved when pushed.</p>
+<h2>&#160;</h2>
+<h2>How about attributes?</h2>
+<p>Since 2015.2 attributes set against a file revision on your local server will be pushed to the remote server, but only if that server is at least at 2015.2 as well (otherwise attributes will be silently ignored).</p>
+<h2>&#160;</h2>
+<h2>And fixes?</h2>
+<p>Yes, you can push fixes (links between jobs and changes) as well, but you need to copy the jobspec and the individual jobs across to the local server before you can do so. This is an exercise best left to the advanced user (and maybe subject to another post&#160;if you so wish).</p>
+<h2>&#160;</h2>
+<h2>What about labels?</h2>
+<p>Err. No.</p>
+<p>Keep in mind that Perforce Helix is different to your usual DVCS setup. The central usually has many projects in different paths to your local server, so translation of static labels is difficult. Automatic labels can be easily recreated on the remote server, though.</p>
+<h2>&#160;</h2>
+<h2>Triggers and push</h2>
+<p>There are triggers on the remote site that can fire when changes are pushed in, and these triggers will have to be used instead of the usual submit triggers to enforce policy. I&#8217;ll cover the details in a separate post.</p>
+<h2>&#160;</h2>
+<h2>Conclusion</h2>
+<p>A simple push is very easy, but the devil is, as usual, in the details. I hope this post gives you an idea of the preparation stages and the result of a push.</p>
+<p>As usual, tweet feedback to @p4sven, please.</p>
+<p>&#160;</p>
+<p>Happy hacking!</p>
+</div>
+
+      <p class="info">
+<h4>
+Posted Mon 18 July 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4>      </p>
+
+      </article>
+
+
+      <article>
+      <h1><a href="http://ciandcd.github.io/perforce-hires-its-first-chief-product-officer.html" rel="bookmark">
+    Perforce Hires Its First Chief Product Officer</a></h1>
+
+      
+
+        <p><a class="btn btn-mini btn-primary" href="http://ciandcd.github.io/perforce-hires-its-first-chief-product-officer.html">Read more</a></p>
+
+      <p class="info">
+<h4>
+Posted Wed 06 July 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4>      </p>
+
+      </article>
+
+
+      <article>
+      <h1><a href="http://ciandcd.github.io/take-a-devops-road-trip-with-scania.html" rel="bookmark">
+    Take a DevOps Road Trip with Scania</a></h1>
+
+      
+
+        <p><a class="btn btn-mini btn-primary" href="http://ciandcd.github.io/take-a-devops-road-trip-with-scania.html">Read more</a></p>
+
+      <p class="info">
+<h4>
+Posted Wed 06 July 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4>      </p>
+
+      </article>
+
+
+      <article>
+      <h1><a href="http://ciandcd.github.io/i-test-you-test.html" rel="bookmark">
+    I Test, You Test</a></h1>
+
+      
+
+        <p><a class="btn btn-mini btn-primary" href="http://ciandcd.github.io/i-test-you-test.html">Read more</a></p>
+
+      <p class="info">
+<h4>
+Posted Fri 17 June 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4>      </p>
+
+      </article>
+
+
+      <article>
+      <h1><a href="http://ciandcd.github.io/ooo-out-of-office.html" rel="bookmark">
+    OOO (Out of Office)...</a></h1>
+
+      
+
+        <p><a class="btn btn-mini btn-primary" href="http://ciandcd.github.io/ooo-out-of-office.html">Read more</a></p>
+
+      <p class="info">
+<h4>
+Posted Tue 07 June 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4>      </p>
+
+      </article>
+
+
+      <article>
+      <h1><a href="http://ciandcd.github.io/what-are-your-options-for-a-high-availability-and-disaster-recovery-plan.html" rel="bookmark">
+    What Are Your Options for a High Availability and Disaster Recovery Plan</a></h1>
+
+      
+
+        <p><a class="btn btn-mini btn-primary" href="http://ciandcd.github.io/what-are-your-options-for-a-high-availability-and-disaster-recovery-plan.html">Read more</a></p>
+
+      <p class="info">
+<h4>
+Posted Thu 02 June 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4>      </p>
+
+      </article>
+
+
+
+
+</div>
+<!-- /Content -->
+
+<!-- Side bar -->
+<nav class="col-lg-3">
+
+<h2>分类</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li ><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+</ul>
+
+<h2>标签</h2>
+<ul class="tagcloud">
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/finalbuilder.html">finalbuilder</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/devops.html">devops</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/ciandcd.html">ciandcd</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/perforce.html">perforce</a></li>
+</ul>
+
+<h2>链接</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://www.cnblogs.com/itech/">itech</a></li>
+  <li><a href="http://www.ciandcd.com">ciandcd</a></li>
+</ul>
+
+<h2>联系</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://ciandcd.github.io/feeds/rss.xml" type="application/rss+xml" rel="alternate">Site Feed</a></li>
+  <li><a href="https://github.com/ciandcd">Github</a></li>
+</ul>
+
+<h2>作者</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li class="active"><a href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a></li>
+  <li ><a href="http://ciandcd.github.io/author/alex-staveley.html">Alex Staveley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/antti-virtanen.html">Antti Virtanen</a></li>
+  <li ><a href="http://ciandcd.github.io/author/barton-george.html">Barton George</a></li>
+  <li ><a href="http://ciandcd.github.io/author/elizabeth-geno.html">Elizabeth Geno</a></li>
+  <li ><a href="http://ciandcd.github.io/author/florian-motlik.html">Florian Motlik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/gene-kim.html">Gene Kim</a></li>
+  <li ><a href="http://ciandcd.github.io/author/itech001.html">itech001</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jez-humble.html">Jez Humble</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-cook.html">John Cook</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-esser.html">John Esser</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jules-louis.html">Jules Louis</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jullietta-jung.html">Jullietta Jung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/kobi-halperin.html">Kobi Halperin</a></li>
+  <li ><a href="http://ciandcd.github.io/author/meta-brown.html">Meta Brown</a></li>
+  <li ><a href="http://ciandcd.github.io/author/michelle-d-souza.html">Michelle D Souza</a></li>
+  <li ><a href="http://ciandcd.github.io/author/nathaniel-eliot.html">Nathaniel Eliot</a></li>
+  <li ><a href="http://ciandcd.github.io/author/patrik-carlos.html">Patrik Carlos</a></li>
+  <li ><a href="http://ciandcd.github.io/author/peter-spung.html">Peter Spung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/piotr-oktaba.html">Piotr Oktaba</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ragnar-lonn.html">Ragnar Lönn</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ralph-tice.html">Ralph Tice</a></li>
+  <li ><a href="http://ciandcd.github.io/author/scuzza-man.html">Scuzza Man</a></li>
+  <li ><a href="http://ciandcd.github.io/author/sven-malvik.html">Sven Malvik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/tony-bradley.html">Tony Bradley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/william-pietri.html">William Pietri</a></li>
+  <li ><a href="http://ciandcd.github.io/author/yegor-bugayenko.html">Yegor Bugayenko</a></li>
+</ul>
+
+</nav>
+<!-- /Side bar -->
+
+</div>
+<!-- /Main block -->
+
+<!-- Footer -->
+<div class="row"><div class="col-lg-12">
+<footer><small>
+软件持续集成和持续发布 QQ群：172758282. <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=d15cb26237b499f41b21a6e95ddc436766a383a725106a92bd69cdf860a64d34"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ciandcd.com" title="ciandcd.com"></a>
+</small></footer>
+</div></div>
+<!-- /Footer -->
+
+</div></section>
+<!-- /Body -->
+
+<script src="http://ciandcd.github.io/theme/js/jquery.js"></script>
+<script src="http://ciandcd.github.io/theme/js/bootstrap.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>
+    I Test, You Test - news.ciandcd.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="http://ciandcd.github.io/theme/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/main.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet" type="text/css"/>
+
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_content.js"></script>
+<link href="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
+<link href="http://ciandcd.github.io/feeds/rss.xml" rel="alternate" type="application/atom+xml" title="news.ciandcd.com RSS" />
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch({
+          'mode': 'json',
+          'contentLocation': 'tipuesearch_content.json'
+     });
+});
+</script>
+
+
+  <!--[if lt IE 9]>
+    <script src="https://raw.github.com/aFarkas/html5shiv/master/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<!--
+bootstrap-itech - a Pelican theme using Bootstrap
+-->
+<body>
+
+<!-- Header -->
+<header>
+<div class="container-fluid">
+<h1 class="page-header"><a href="http://ciandcd.github.io/index.html">news.ciandcd.com </a>
+<h4>软件持续集成和发布</h4></h1>
+</div>
+</header>
+<!-- /Header -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://ciandcd.github.io/index.html"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+  <li><a href="http://ciandcd.github.io/index.html">首页</a></li>
+
+  <li ><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li class="active"><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+
+  
+    <li ><a href="http://ciandcd.github.io/pages/about.html">about</a></li>
+    <li ><a href="http://ciandcd.github.io/pages/awesome.html">Awesome</a></li>
+
+
+</ul>
+      <form class="navbar-form navbar-left navbar-search" role="search" action="http://ciandcd.github.io/search.html onsubmit="return validateForm(this.elements['q'].value);">
+        <div class="form-group search-query">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://www.cnblogs.com/itech">itech</a></li>
+        <li><a href="https://github.com/ciandcd">Github</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- Body -->
+<section id="body">
+<div class="container">
+
+<!-- Nav bar -->
+<!-- /Nav bar -->
+
+<!-- Main block -->
+<div class="row">
+
+<!-- Content -->
+<div class="col-lg-9">
+<article>
+<h2>
+    I Test, You Test</h2>
+From:<a href="https://www.perforce.com/blog/160617/i-test-you-test">https://www.perforce.com/blog/160617/i-test-you-test</a><br><br><div><p>In a previous blog post, I briefly mentioned the fact that as customers reported problems with the old v2 engine, these cases were logged in the form of detailed test cases.&#160; More than one customer has asked how we test the integration logic, so I thought this might be a good opportunity to go into the integration test harness I use, "itest", in a little more detail.</p>
+<p>I first became involved in the problem of how to test our integration logic when I was in technical support, serving as the main point of contact for any customer encountering problems with integration.&#160; When customers encountered problems that didn't have workarounds, I would attempt to advocate for specific fixes; sometimes in the form of small tweaks that would solve a particular problem, sometimes in the form of more fundamental changes that seemed like the only way to solve the more fundamental problems.&#160; Development was hesitant to attempt to implement any of these suggestions, largely because even if they were good suggestions (and one or two of them might have been), it would be difficult to verify their efficacy.</p>
+<p>Before itest existed, the body of tests for integration (and everything else) worked by running a large set of commands and diffing the output vs a large set of canonical output.&#160; Adding a new test in the middle of this suite and making sure all of the tests that followed it still functioned correctly could be nontrivial.&#160; Testing the semantic effect of a change that touched a large number of systems could also be nontrivial -- if a low-level change caused a set of commands to produce functionally the same result but with a different number of changelists, or selecting a different (but identical) revision as a base, the entire test would "fail" and a large amount of human effort would be needed to see whether the change worked as intended in all of those cases.</p>
+<p>Add into this state of affairs the situation when we did make a few fundamental changes to the v2 algorithm and customers began to report behavioral differences.&#160; The changes in question are described in this 2007.2 relnote:</p>
+<p>&#160;</p>
+<pre>        #119955 (Bug #23698, #24251, #24207, #23469, #24150) **
+
+            The 'p4 integrate' algorithms for suppressing reintegration
+
+            and for picking the optimum base, which were reimplemented
+
+            in 2006.1, have been tuned significantly for this release.
+
+            The following new changes have been made:
+
+
+            Integrating a single 'copy from' revision now gives credit for
+
+            all earlier revisions, so that a subsequent 'p4 integrate' of
+
+            any earlier revision will find no work to do.  This can only
+
+            come about by 'cherry picking' (providing to 'p4 integrate'
+
+            specific revisions to integrate).
+
+
+            Pending integration records (files opened with 'p4 integrate'
+
+            but not yet submitted with 'p4 submit') are now considered
+
+            when finding the most appropriate base.  This makes
+
+            integrating into a related file already opened for branch
+
+            possible without the 'p4 integrate -i' flag.
+
+
+            'p4 integrate' follows indirect integrations through
+
+            complicated combinations of merge/copy/ignore integration
+
+            records better.  This should result in fewer integrations
+
+            being scheduled, and closer bases being picked, for
+
+            integration between distant files.
+
+
+            'p4 integrate' could wrongly choose a base on the source
+
+            file after the revisions needing to be integrated if the
+
+            revisions needing to be integrated were before revisions
+
+            already integrated.  This normally only comes about in cases
+
+            of 'cherry picking' (providing to 'p4 integrate' specific
+
+            revisions to integrate).
+
+            
+
+            'p4 integrate' in certain cases wouldn't find a base (or
+
+            choose a poorer base) if the source file was branched and
+
+            reopened for add, and then the original file was changed
+
+            further and branched again.</pre><p>As customers reported that merges in some cases had become more difficult after the upgrade to 2007.2, I wanted to get hard data to determine if there had been a verifiable regression in behavior and possibly make a case to development to roll some of the changes back, so I got a lot of practice at looking at the data I had available (mostly screenshots of Revision Graph) and coming up with sets of commands that would reconstruct the same scenario -- rather than logging a bug report that said "some merges are different after the upgrade", or including a full customer checkpoint as an attachment, I had something that development could simply copy and paste into a shell to recreate the situation that the customer was experiencing.</p>
+<p>I started writing the itest.pl test suite while I was on the long flight back from the 2008 European User Conference; we had just had a long conversation about the possibility of making deep changes to the integration algorithm to cut down on conflicts, and the problem had come up of not having adequate test data to verify that sort of a deep change.&#160; The following requirements were foremost in my mind:</p>
+<p>&#160;</p>
+<p>&#183;&#160;&#160;&#160;&#160;&#160;&#160; It needed to be easier for me to generate test cases than my then-current method of typing out individual shell commands.</p>
+<p>&#183;&#160;&#160;&#160;&#160;&#160;&#160; The tests needed to be able to check for semantic correctness rather than relying on byte-for-byte equality of output.</p>
+<p>&#183;&#160;&#160;&#160;&#160;&#160;&#160; I needed to be able to easily run the same set of tests in different environments to report on differences between versions.</p>
+<p>&#160;</p>
+<p>The script started with a simple method to generate text files with a sequence of non-conflicting edits that I could use to arbitrarily produce clean merges at will (try doing that in a simple batch script with "echo" statements and redirects; it's torment), and quickly evolved into a language that was able to represent everything in my library of batch scripts with a very small fraction of the typing.&#160; This is an example of a test script written using the itest tool:</p>
+<p>&#160;</p>
+<pre>add X
+
+branch X Z
+
+branch X Y
+
+edit X 1 B1
+
+edit Y 1 B2
+
+edit Z 2 D
+
+dirty Y X 1 B3
+
+merge Z Y
+
+merge Z X
+
+test base X Y Y#3 Y#2 Z#2 X#1</pre><p>&#160;</p>
+<p>In English this would read as: "add a file called X, create branches Z and Y, edit different text into X and Y at a common location to force a conflict, and something else into Z at a non-conflicting location.&#160; Do a dirty merge from Y to X, resolving the conflict with yet another edit in the same location, and then do clean merges from Z to both Y and X.&#160; When merging from X to Y, the ideal base is Y#3, with other acceptable (but not ideal) bases being, from best to worst: Y#2, Z#2, and X#1."&#160; When executing this script, the output will be a letter grade from A (for the ideal base being chosen) to F (for none of the presented options being chosen).&#160; The 2006.1 server receives a grade of "C" on this test; the server as of 2013.2 receives an "A".</p>
+<p>Once I had migrated all of my existing test cases into this tool, I was able to very quickly create a table (with color coding and everything) demonstrating differences in behavior between releases -- cases where 2006.1 was a regression from 2005.2, and cases where 2007.2 was a regression from 2006.2, as well as cases where the newer release was a step forward.&#160; As time went on, I continued adding more and more data to this test suite, and slowly started to assemble a picture of what an algorithm that addressed every case at once might look like.&#160; Having so many examples of cases that could "fool" each existing approach into picking a demonstrably non-optimal answer made it much easier to think about what approach we could use to produce an optimal answer in each instance.</p>
+<p>These examples also served me very well when I began work on a prototype for a system that I thought might produce that optimal answer; once my prototype was able to produce right answers to everything that the current software got wrong, it was easy to make a case to development that it was worth working to improve or rewrite what we had.&#160; A few years later, I myself had been absorbed into development to take over that task, and I hope this serves as a cautionary tale to others about the dangers of writing demonstrably useful prototypes, even just for fun.</p>
+<p>Here's an example of a table of test output, with the same set of tests run across three different server versions:</p>
+<p><img alt="" src="/sites/default/files/ITest.png"></p>
+<p>The current version of <a href="https://swarm.workshop.perforce.com/files/guest/sam_stafford/scripts/itest.pl">itest.pl can be found in the Workshop</a>.&#160; Some time ago I decided to put it out there so that customers who were experiencing problems with integration and wanted to document those cases for themselves, the same way that I used to when I was working directly with customers, would have access to the same tool that I used.</p>
+<p>More recently I've submitted a selection of the <a href="https://swarm.workshop.perforce.com/files/guest/sam_stafford/scripts/itest.txt">test cases</a> that we have assembled over the years.&#160; This isn't the full suite (I've removed a large number of cases that are based directly on customer data, leaving only the more abstract cases) but hopefully it provides an idea of the breadth of situations that we test and develop for.</p>
+<p>As promised in my last post, I will soon be getting to a description of the current integration engine, which is based heavily on the prototype I mentioned in this post.&#160; Stay tuned!</p>
+</div>
+
+<p class="info">
+<h4>
+Posted Fri 17 June 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4></p>
+
+</article>
+</div>
+<!-- /Content -->
+
+<!-- Side bar -->
+<nav class="col-lg-3">
+
+<h2>分类</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li class="active"><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+</ul>
+
+<h2>标签</h2>
+<ul class="tagcloud">
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/finalbuilder.html">finalbuilder</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/devops.html">devops</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/ciandcd.html">ciandcd</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/perforce.html">perforce</a></li>
+</ul>
+
+<h2>链接</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://www.cnblogs.com/itech/">itech</a></li>
+  <li><a href="http://www.ciandcd.com">ciandcd</a></li>
+</ul>
+
+<h2>联系</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://ciandcd.github.io/feeds/rss.xml" type="application/rss+xml" rel="alternate">Site Feed</a></li>
+  <li><a href="https://github.com/ciandcd">Github</a></li>
+</ul>
+
+<h2>作者</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a></li>
+  <li ><a href="http://ciandcd.github.io/author/alex-staveley.html">Alex Staveley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/antti-virtanen.html">Antti Virtanen</a></li>
+  <li ><a href="http://ciandcd.github.io/author/barton-george.html">Barton George</a></li>
+  <li ><a href="http://ciandcd.github.io/author/elizabeth-geno.html">Elizabeth Geno</a></li>
+  <li ><a href="http://ciandcd.github.io/author/florian-motlik.html">Florian Motlik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/gene-kim.html">Gene Kim</a></li>
+  <li ><a href="http://ciandcd.github.io/author/itech001.html">itech001</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jez-humble.html">Jez Humble</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-cook.html">John Cook</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-esser.html">John Esser</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jules-louis.html">Jules Louis</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jullietta-jung.html">Jullietta Jung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/kobi-halperin.html">Kobi Halperin</a></li>
+  <li ><a href="http://ciandcd.github.io/author/meta-brown.html">Meta Brown</a></li>
+  <li ><a href="http://ciandcd.github.io/author/michelle-d-souza.html">Michelle D Souza</a></li>
+  <li ><a href="http://ciandcd.github.io/author/nathaniel-eliot.html">Nathaniel Eliot</a></li>
+  <li ><a href="http://ciandcd.github.io/author/patrik-carlos.html">Patrik Carlos</a></li>
+  <li ><a href="http://ciandcd.github.io/author/peter-spung.html">Peter Spung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/piotr-oktaba.html">Piotr Oktaba</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ragnar-lonn.html">Ragnar Lönn</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ralph-tice.html">Ralph Tice</a></li>
+  <li ><a href="http://ciandcd.github.io/author/scuzza-man.html">Scuzza Man</a></li>
+  <li ><a href="http://ciandcd.github.io/author/sven-malvik.html">Sven Malvik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/tony-bradley.html">Tony Bradley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/william-pietri.html">William Pietri</a></li>
+  <li ><a href="http://ciandcd.github.io/author/yegor-bugayenko.html">Yegor Bugayenko</a></li>
+</ul>
+
+</nav>
+<!-- /Side bar -->
+
+</div>
+<!-- /Main block -->
+
+<!-- Footer -->
+<div class="row"><div class="col-lg-12">
+<footer><small>
+软件持续集成和持续发布 QQ群：172758282. <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=d15cb26237b499f41b21a6e95ddc436766a383a725106a92bd69cdf860a64d34"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ciandcd.com" title="ciandcd.com"></a>
+</small></footer>
+</div></div>
+<!-- /Footer -->
+
+</div></section>
+<!-- /Body -->
+
+<script src="http://ciandcd.github.io/theme/js/jquery.js"></script>
+<script src="http://ciandcd.github.io/theme/js/bootstrap.js"></script>
+
+
+</body>
+</html>

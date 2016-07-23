@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>
+    Your Questions Answered - news.ciandcd.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="http://ciandcd.github.io/theme/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/main.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet" type="text/css"/>
+
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_content.js"></script>
+<link href="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
+<link href="http://ciandcd.github.io/feeds/rss.xml" rel="alternate" type="application/atom+xml" title="news.ciandcd.com RSS" />
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch({
+          'mode': 'json',
+          'contentLocation': 'tipuesearch_content.json'
+     });
+});
+</script>
+
+
+  <!--[if lt IE 9]>
+    <script src="https://raw.github.com/aFarkas/html5shiv/master/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<!--
+bootstrap-itech - a Pelican theme using Bootstrap
+-->
+<body>
+
+<!-- Header -->
+<header>
+<div class="container-fluid">
+<h1 class="page-header"><a href="http://ciandcd.github.io/index.html">news.ciandcd.com </a>
+<h4>软件持续集成和发布</h4></h1>
+</div>
+</header>
+<!-- /Header -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://ciandcd.github.io/index.html"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+  <li><a href="http://ciandcd.github.io/index.html">首页</a></li>
+
+  <li ><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li class="active"><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+
+  
+    <li ><a href="http://ciandcd.github.io/pages/about.html">about</a></li>
+    <li ><a href="http://ciandcd.github.io/pages/awesome.html">Awesome</a></li>
+
+
+</ul>
+      <form class="navbar-form navbar-left navbar-search" role="search" action="http://ciandcd.github.io/search.html onsubmit="return validateForm(this.elements['q'].value);">
+        <div class="form-group search-query">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://www.cnblogs.com/itech">itech</a></li>
+        <li><a href="https://github.com/ciandcd">Github</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- Body -->
+<section id="body">
+<div class="container">
+
+<!-- Nav bar -->
+<!-- /Nav bar -->
+
+<!-- Main block -->
+<div class="row">
+
+<!-- Content -->
+<div class="col-lg-9">
+<article>
+<h2>
+    Your Questions Answered</h2>
+From:<a href="https://www.perforce.com/blog/160620/questions-answered">https://www.perforce.com/blog/160620/questions-answered</a><br><br><div><h1>The Changing Role of Release Engineering in a DevOps World</h1>
+<p><img alt="" src="/sites/default/files/DevOpsElephant.png"></p>
+<p>Here at Perforce, DevOps expert J. Paul Reed recently joined us for a broadcast on <a href="http://info.perforce.com/ondemand-webinar-release-engineering-devops.html?utm_source=">the changing role of Release Engineering in the word of DevOps</a>. In this 30-minute webinar, Paul dove into topics such as:</p>
+<ul><li>How release engineering and DevOps intersect</li>
+<li>What DevOps and Continuous Delivery mean for the future of release engineering</li>
+<li>Tips for grappling with release engineering in a DevOps world</li>
+</ul><p>We had a great audience for our live broadcast and received some insightful questions from our viewers. Here are a few of our favorite live questions answered by DevOps consultant J. Paul Reed.</p>
+<p>&#160;</p>
+<h2>Where do you see release engineering in 10 years?</h2>
+<p>In 2026, everything will be based on server-less architectures, meaning we can get rid of all those pesky operations and release engineers.</p>
+<p>	No, but seriously: I think the work currently associated with "release engineering" may start to be called something else, especially as we attempt to "continuous delivery" everything; but the work will be very similar, and in fact, as the Internet-of-Things heats up, I think the entire industry is in for a rude awakening when they realize that the web, in many ways, has coddled us such that we could mostly ignore all of the release engineering discipline and everything would still be "mostly OK." (And easily fixable, if not!)</p>
+<p>	Of course, us release engineers know that companies made their lives harder by doing so, but when you start shipping software to your toaster and your pacemaker and your electric car, suddenly, all those considerations around the mechanics of release software become incredibly important again.</p>
+<p>	So in that regard, I wouldn&#8217;t be surprised if we experience a bit of a renaissance in release engineering; what remains to be seen is whether the industry will look backward 10 years to the lessons we've already learned, or do what it usually does, and try to re-learn everything from first principles again and, of course, with the pain, gnashing of teeth, and customer-affecting failure that comes with that.<br>
+	&#160;</p>
+<h2>Can DevOps succeed without a centralized enterprise DevOps team?</h2>
+<p>Most certainly!</p>
+<p>In fact, many would say a "centralized enterprise DevOps team" is an anti-pattern. In large enterprises, I have seen the creation of centralized DevOps teams (or even worse: a "DevOps Center of Excellence") and it tends to be fraught with all sorts of problems:</p>
+<ul><li>It&#8217;s yet another team: one of the problems DevOps tries to solve is the siloed nature of development and operations teams; but when you create another team in between these teams, that's just another team to manage, with additional complexities to address. And it doesn't solve the original silo problem.</li>
+<li>There's been much discussion recently of the problems with &#8220;bi-modal IT," the idea that there's "one speed" for "legacy" IT, and the shiny, new DevOps way is another mode. This has a tendency to engender all sorts of animosity between the teams responsible for the "two modes" of IT, and a centralized DevOps team is likely to promote this separation, which is starting to be widely recognized as problematic.</li>
+<li>Lastly, a centralized DevOps team doesn't allow local development and operations teams to experiment, communicate, learn, wrestle with, and work in their local contexts, precisely where it would be most valuable. On the contrary, it restricts such behavior.</li>
+</ul><p>
+	That's not to say if you have one of these teams, you're "doing it wrong" or it's going to be horrible. But I would say: a centralized DevOps team does <strong>not</strong> guarantee success, and in fact, in many ways, may impede it.<br>
+	&#160;</p>
+<h2>Is Docker better than VM technology for DevOps? In a test environment? Is this the future?</h2>
+<p>There&#8217;s a lot of hype around Docker right now, and because of that there is confusion around what it's good for, what it isn't good for, and how it can best be leveraged in real-world environments.</p>
+<p>	A tweet I saw just the other day was from an engineer with a fair amount of Docker experience; she asked the audience she was presenting to "Who's using Docker?" and noted that many hands went up. She then added "... in production": the hands all went down.</p>
+<p>	There's a fair amount of management and infrastructure tooling that's currently missing in Docker-land; I think they're working hard and fast on fixing that, but that's also why you get a fairly wide range of "Docker usage stories.&#8221; For some users, the tools they need to manage at scale (in or out of production) simply aren't there. They either have to build them, or abandon Docker.</p>
+<p>	Ultimately, Docker as a way to coordinate developers' environments is a great use case, and it's the one I commonly see. I don't believe Docker solves all the problems that virtualization solved and it doesn't solve all the problems that configuration management solves. But it does solve a problem, and the best Docker rollouts are those that use Docker for certain solutions, but can still produce VMs, or AMIs, or other operable artifacts that are not Docker containers.</p>
+<p>	For more discussion on some of the concerns of rolling out Docker in an environment, read my good friend Julian Dunn's blog post: <a href="http://www.juliandunn.net/2015/12/04/the-oncoming-train-of-enterprise-container-deployments/">The Oncoming Train of Enterprise Container Deployments</a>.</p>
+<p>&#160;</p>
+<p>For additional DevOps best practices, download J. Paul&#8217;s publication by O&#8217;Reilly media &#8220;<a href="http://jpaulreed.com/devops-in-practice">DevOps in Practice</a>&#8221;, and for more webcasts on hot topics please visit <a href="https://www.perforce.com/events">perforce.com/events</a> to register for upcoming webinars.</p>
+</div>
+
+<p class="info">
+<h4>
+Posted Mon 20 June 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/itech001.html">itech001</a>
+in <a href="http://ciandcd.github.io/category/scm.html">scm</a>
+(<a href="http://ciandcd.github.io/tag/perforce.html">perforce</a>)</h4></p>
+
+</article>
+</div>
+<!-- /Content -->
+
+<!-- Side bar -->
+<nav class="col-lg-3">
+
+<h2>分类</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li class="active"><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+</ul>
+
+<h2>标签</h2>
+<ul class="tagcloud">
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/finalbuilder.html">finalbuilder</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/devops.html">devops</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/ciandcd.html">ciandcd</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/perforce.html">perforce</a></li>
+</ul>
+
+<h2>链接</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://www.cnblogs.com/itech/">itech</a></li>
+  <li><a href="http://www.ciandcd.com">ciandcd</a></li>
+</ul>
+
+<h2>联系</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://ciandcd.github.io/feeds/rss.xml" type="application/rss+xml" rel="alternate">Site Feed</a></li>
+  <li><a href="https://github.com/ciandcd">Github</a></li>
+</ul>
+
+<h2>作者</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a></li>
+  <li ><a href="http://ciandcd.github.io/author/alex-staveley.html">Alex Staveley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/antti-virtanen.html">Antti Virtanen</a></li>
+  <li ><a href="http://ciandcd.github.io/author/barton-george.html">Barton George</a></li>
+  <li ><a href="http://ciandcd.github.io/author/elizabeth-geno.html">Elizabeth Geno</a></li>
+  <li ><a href="http://ciandcd.github.io/author/florian-motlik.html">Florian Motlik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/gene-kim.html">Gene Kim</a></li>
+  <li ><a href="http://ciandcd.github.io/author/itech001.html">itech001</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jez-humble.html">Jez Humble</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-cook.html">John Cook</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-esser.html">John Esser</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jules-louis.html">Jules Louis</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jullietta-jung.html">Jullietta Jung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/kobi-halperin.html">Kobi Halperin</a></li>
+  <li ><a href="http://ciandcd.github.io/author/meta-brown.html">Meta Brown</a></li>
+  <li ><a href="http://ciandcd.github.io/author/michelle-d-souza.html">Michelle D Souza</a></li>
+  <li ><a href="http://ciandcd.github.io/author/nathaniel-eliot.html">Nathaniel Eliot</a></li>
+  <li ><a href="http://ciandcd.github.io/author/patrik-carlos.html">Patrik Carlos</a></li>
+  <li ><a href="http://ciandcd.github.io/author/peter-spung.html">Peter Spung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/piotr-oktaba.html">Piotr Oktaba</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ragnar-lonn.html">Ragnar Lönn</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ralph-tice.html">Ralph Tice</a></li>
+  <li ><a href="http://ciandcd.github.io/author/scuzza-man.html">Scuzza Man</a></li>
+  <li ><a href="http://ciandcd.github.io/author/sven-malvik.html">Sven Malvik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/tony-bradley.html">Tony Bradley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/william-pietri.html">William Pietri</a></li>
+  <li ><a href="http://ciandcd.github.io/author/yegor-bugayenko.html">Yegor Bugayenko</a></li>
+</ul>
+
+</nav>
+<!-- /Side bar -->
+
+</div>
+<!-- /Main block -->
+
+<!-- Footer -->
+<div class="row"><div class="col-lg-12">
+<footer><small>
+软件持续集成和持续发布 QQ群：172758282. <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=d15cb26237b499f41b21a6e95ddc436766a383a725106a92bd69cdf860a64d34"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ciandcd.com" title="ciandcd.com"></a>
+</small></footer>
+</div></div>
+<!-- /Footer -->
+
+</div></section>
+<!-- /Body -->
+
+<script src="http://ciandcd.github.io/theme/js/jquery.js"></script>
+<script src="http://ciandcd.github.io/theme/js/bootstrap.js"></script>
+
+
+</body>
+</html>

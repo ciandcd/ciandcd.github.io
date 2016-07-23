@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>
+    Refactoring a Jenkins plugin for compatibility with Pipeline jobs - news.ciandcd.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="http://ciandcd.github.io/theme/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/main.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet" type="text/css"/>
+
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_content.js"></script>
+<link href="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
+<link href="http://ciandcd.github.io/feeds/rss.xml" rel="alternate" type="application/atom+xml" title="news.ciandcd.com RSS" />
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch({
+          'mode': 'json',
+          'contentLocation': 'tipuesearch_content.json'
+     });
+});
+</script>
+
+
+  <!--[if lt IE 9]>
+    <script src="https://raw.github.com/aFarkas/html5shiv/master/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<!--
+bootstrap-itech - a Pelican theme using Bootstrap
+-->
+<body>
+
+<!-- Header -->
+<header>
+<div class="container-fluid">
+<h1 class="page-header"><a href="http://ciandcd.github.io/index.html">news.ciandcd.com </a>
+<h4>软件持续集成和发布</h4></h1>
+</div>
+</header>
+<!-- /Header -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://ciandcd.github.io/index.html"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+  <li><a href="http://ciandcd.github.io/index.html">首页</a></li>
+
+  <li class="active"><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li ><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+
+  
+    <li ><a href="http://ciandcd.github.io/pages/about.html">about</a></li>
+    <li ><a href="http://ciandcd.github.io/pages/awesome.html">Awesome</a></li>
+
+
+</ul>
+      <form class="navbar-form navbar-left navbar-search" role="search" action="http://ciandcd.github.io/search.html onsubmit="return validateForm(this.elements['q'].value);">
+        <div class="form-group search-query">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://www.cnblogs.com/itech">itech</a></li>
+        <li><a href="https://github.com/ciandcd">Github</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- Body -->
+<section id="body">
+<div class="container">
+
+<!-- Nav bar -->
+<!-- /Nav bar -->
+
+<!-- Main block -->
+<div class="row">
+
+<!-- Content -->
+<div class="col-lg-9">
+<article>
+<h2>
+    Refactoring a Jenkins plugin for compatibility with Pipeline jobs</h2>
+From:<a href="http://feedproxy.google.com/~r/ContinuousBlog/~3/GH2vCWRAagA/">http://feedproxy.google.com/~r/ContinuousBlog/~3/GH2vCWRAagA/</a><br><br><div><p>In this blog post, I&#8217;m going to attempt to provide some step-by-step notes on how to refactor an existing Jenkins plugin to make it compatible with the new Jenkins Pipeline jobs. Before we get to the fun stuff, though, a little background.</p><p>Spoiler: if you&#8217;re just interested in looking at the individual git commits that I made on may way to getting the plugin working with Pipeline, have a look at this github branch .</p><p>Eventually, I got it all sorted out. So, in hopes of saving the next person a little time, and encouraging plugin authors to invest the time to get their plugins working with Pipeline, here are some notes about what I learned.</p><p>As best as I could tell from my Googling, the plugin was probably going to require some modifications in order to be able to be used with Pipeline jobs. However, I wasn&#8217;t able to find any really cohesive documentation that definitively confirmed that or explained how everything fits together.</p><p>So everything&#8217;s going GREAT up to this point. I&#8217;m really happy with how it&#8217;s all shaping up. But then&#8230;&#8203; (you knew there was a "but" coming, right?) I started trying to figure out how to add the Gatling Jenkins plugin to the Pipeline jobs, and kind of ran into a wall.</p><p>Over the last few days I&#8217;ve been putting some effort into getting things more automated and repeatable so that we can really maximize the value that we&#8217;re getting out of the performance tests. With some encouragement from the fine folks in the #jenkins IRC channel , I ended up exploring the JobDSL plugin and the new Pipeline jobs . Combining those two things with some Puppet code to provision a Jenkins server via the jenkins puppet module gave me a really nice way to completely automate my Jenkins setup and get a seed job in place that would create my perf testing jobs. And the Pipeline job format is just an awesome fit for what I wanted to do in terms of being able to easily monitor the stages of my performance tests, and to make the job definitions modular so that it would be really easy to create new performance testing jobs with slight variations.</p><p>Recently, I started working on a project to automate some performance tests for my company&#8217;s products. We use the awesome Gatling load testing tool for these tests, but we&#8217;ve largely been handling the testing very manually to date, due to a lack of bandwidth to get them automated in a clean, maintainable, extensible way. We have a years-old Jenkins server where we use the gatling jenkins plugin to track the history of certain tests over time, but the setup of the Jenkins instance was very delicate and not easy to reproduce, so it had fallen into a state of disrepair.</p><h3 id="creating-a-pipeline-step"><a class="anchor" href="#creating-a-pipeline-step"></a>Creating a pipeline step</h3>
+<p>The main task that the Gatling plugin performs is to archive Gatling reports
+after a run.  I figured that the end game for this exercise was that I was going
+to end up with a Pipeline "step" that I could include in my Pipeline scripts, to
+trigger the archiving of the reports.  So my first thought was to look for an
+existing plugin / Pipeline "step" that was doing something roughly similar, so
+that I could use it as a model.  The Pipeline "Snippet Generator" feature
+(create a pipeline job, scroll down to the "Definition" section of its
+configuration, and check the "Snippet Generator" checkbox) is really helpful for
+figuring out stuff like this; it is automatically populated with all of the
+steps that are valid on your server (based on which plugins you have installed),
+so you can use it to verify whether or not your custom "step" is recognized, and
+also to look at examples of existing steps.</p>
+<p>Looking through the list of existing steps, I figured that the <code>archive</code> step
+was pretty likely to be similar to what I needed for the gatling plugin:</p>
+<p><img src="/images/post-images/update-plugin-for-pipeline-tutorial/05_snippet_generator_archive.png" alt="archive snippet"></p>
+<p>So, I started poking around to see what magic it was that made that <code>archive</code>
+step show up there.  There are some mentions of this in the
+<a href="https://github.com/jenkinsci/pipeline-plugin/blob/6cffbecd874b924677ce3b3c5b1e0e2f45689cc5/DEVGUIDE.md#build-steps">pipeline-plugin
+DEVGUIDE.md</a> and the
+<a href="https://github.com/jenkinsci/workflow-step-api-plugin/blob/ee8f181c5561d70207a6b84b4d91ca24312c8a39/README.md">workflow-step-api-plugin
+README.md</a>, but the real breakthrough for me was finding the <a href="https://github.com/jenkinsci/workflow-basic-steps-plugin/blob/300fe6c02b41f072e50a501cfec3e2f425048446/src/main/java/org/jenkinsci/plugins/workflow/steps/ArtifactArchiverStep.java#L37-L53">definition of the
+<code>archive</code> step in the <code>workflow-basic-steps-plugin</code> source
+code</a>.</p>
+<p>With that as an example, I was able to start poking at getting a
+<code>gatlingArchive</code> step to show up in the Snippet Generator.  The first thing that
+I needed to do was to <a href="https://github.com/cprice404/gatling-plugin/commit/b321192bc635eee529ff70e4795591c4594f3664">update the <code>gatling-plugin</code> project&#8217;s <code>pom.xml</code> to depend
+on a recent enough version of Jenkins, as well as specify dependencies on the
+appropriate pipeline
+plugins</a></p>
+<p>Once that was out of the way, I noticed that the <code>archive</code> step had some tests
+written for it, using what looks to be a pretty awesome test API for pipeline
+jobs and plugins.  Based on <a href="https://github.com/jenkinsci/workflow-basic-steps-plugin/blob/300fe6c02b41f072e50a501cfec3e2f425048446/src/test/java/org/jenkinsci/plugins/workflow/steps/ArtifactArchiverStepTest.java#L26-L44">those <code>archive</code>
+tests</a>,
+I added
+<a href="https://github.com/cprice404/gatling-plugin/commit/ed9df4b54c36cee467b3a82e42cb2111e93f9df5">a
+skeleton for a test for the <code>gatlingArchive</code> step</a> that I was about to write.</p>
+<p>Then, I moved on to
+<a href="https://github.com/cprice404/gatling-plugin/commit/3de3485be591c7b750ec2671e74558a79efc4319">actually
+creating the step</a>.  The meat of the code was this:</p>
+<pre class="CodeRay highlight nowrap"><code><p>public</p> <p>class</p> <p>GatlingArchiverStep</p> <p>extends</p> AbstractStepImpl {
+    <p>@DataBoundConstructor</p>
+    <p>public</p> GatlingArchiverStep() {}
+
+    <p>@Extension</p>
+    <p>public</p> <p>static</p> <p>class</p> <p>DescriptorImpl</p> <p>extends</p> AbstractStepDescriptorImpl {
+        <p>public</p> DescriptorImpl() { <p>super</p>(GatlingArchiverStepExecution.class); }
+
+        <p>@Override</p>
+        <p>public</p> <p>String</p> getFunctionName() {
+            <p>return</p> <p><p>"</p><p>gatlingArchive</p><p>"</p></p>;
+        }
+
+        <p>@Nonnull</p>
+        <p>@Override</p>
+        <p>public</p> <p>String</p> getDisplayName() {
+            <p>return</p> <p><p>"</p><p>Archive Gatling reports</p><p>"</p></p>;
+        }
+    }
+}</code></pre>
+<p>Note that in that commit I also added a <code>config.jelly</code> file.  This is how you
+define the UI for your step, which will show up in the Snippet Generator.  In
+the case of this Gatling step there&#8217;s really not much to configure, so my
+<code>config.jelly</code> is basically empty.</p>
+<p>With that (and the rest of the code from that commit) in place, I was able to
+fire up the development Jenkins server (via <code>mvn hpi:run</code>, and note that you
+need to go into the "Manage Plugins" screen on your development server and
+install the Pipeline plugin once before any of this will work) and visit the
+Snippet Generator to see if my step showed up in the dropdown:</p>
+<p><img src="/images/post-images/update-plugin-for-pipeline-tutorial/10_snippet_generator.png" alt="gatlingArchive snippet"></p>
+<p>GREAT SUCCESS!</p>
+<p>This step doesn&#8217;t actually <strong>do</strong> anything yet, but it&#8217;s recognized by Jenkins and
+can be included in your pipeline scripts at that point, so, we&#8217;re on our way!</p>
+</div>
+
+<p class="info">
+<h4>
+Posted Wed 25 May 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/itech001.html">itech001</a>
+in <a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a>
+(<a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a>)</h4></p>
+
+</article>
+</div>
+<!-- /Content -->
+
+<!-- Side bar -->
+<nav class="col-lg-3">
+
+<h2>分类</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li class="active"><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li ><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+</ul>
+
+<h2>标签</h2>
+<ul class="tagcloud">
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/finalbuilder.html">finalbuilder</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/devops.html">devops</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/ciandcd.html">ciandcd</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/perforce.html">perforce</a></li>
+</ul>
+
+<h2>链接</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://www.cnblogs.com/itech/">itech</a></li>
+  <li><a href="http://www.ciandcd.com">ciandcd</a></li>
+</ul>
+
+<h2>联系</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://ciandcd.github.io/feeds/rss.xml" type="application/rss+xml" rel="alternate">Site Feed</a></li>
+  <li><a href="https://github.com/ciandcd">Github</a></li>
+</ul>
+
+<h2>作者</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a></li>
+  <li ><a href="http://ciandcd.github.io/author/alex-staveley.html">Alex Staveley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/antti-virtanen.html">Antti Virtanen</a></li>
+  <li ><a href="http://ciandcd.github.io/author/barton-george.html">Barton George</a></li>
+  <li ><a href="http://ciandcd.github.io/author/elizabeth-geno.html">Elizabeth Geno</a></li>
+  <li ><a href="http://ciandcd.github.io/author/florian-motlik.html">Florian Motlik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/gene-kim.html">Gene Kim</a></li>
+  <li ><a href="http://ciandcd.github.io/author/itech001.html">itech001</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jez-humble.html">Jez Humble</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-cook.html">John Cook</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-esser.html">John Esser</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jules-louis.html">Jules Louis</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jullietta-jung.html">Jullietta Jung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/kobi-halperin.html">Kobi Halperin</a></li>
+  <li ><a href="http://ciandcd.github.io/author/meta-brown.html">Meta Brown</a></li>
+  <li ><a href="http://ciandcd.github.io/author/michelle-d-souza.html">Michelle D Souza</a></li>
+  <li ><a href="http://ciandcd.github.io/author/nathaniel-eliot.html">Nathaniel Eliot</a></li>
+  <li ><a href="http://ciandcd.github.io/author/patrik-carlos.html">Patrik Carlos</a></li>
+  <li ><a href="http://ciandcd.github.io/author/peter-spung.html">Peter Spung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/piotr-oktaba.html">Piotr Oktaba</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ragnar-lonn.html">Ragnar Lönn</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ralph-tice.html">Ralph Tice</a></li>
+  <li ><a href="http://ciandcd.github.io/author/scuzza-man.html">Scuzza Man</a></li>
+  <li ><a href="http://ciandcd.github.io/author/sven-malvik.html">Sven Malvik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/tony-bradley.html">Tony Bradley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/william-pietri.html">William Pietri</a></li>
+  <li ><a href="http://ciandcd.github.io/author/yegor-bugayenko.html">Yegor Bugayenko</a></li>
+</ul>
+
+</nav>
+<!-- /Side bar -->
+
+</div>
+<!-- /Main block -->
+
+<!-- Footer -->
+<div class="row"><div class="col-lg-12">
+<footer><small>
+软件持续集成和持续发布 QQ群：172758282. <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=d15cb26237b499f41b21a6e95ddc436766a383a725106a92bd69cdf860a64d34"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ciandcd.com" title="ciandcd.com"></a>
+</small></footer>
+</div></div>
+<!-- /Footer -->
+
+</div></section>
+<!-- /Body -->
+
+<script src="http://ciandcd.github.io/theme/js/jquery.js"></script>
+<script src="http://ciandcd.github.io/theme/js/bootstrap.js"></script>
+
+
+</body>
+</html>

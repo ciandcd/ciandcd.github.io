@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>
+    Migrating from chained Freestyle jobs to Pipelines - news.ciandcd.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="http://ciandcd.github.io/theme/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/main.css" rel="stylesheet" type="text/css"/>
+  <link href="http://ciandcd.github.io/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+  <link href="http://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet" type="text/css"/>
+
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_content.js"></script>
+<link href="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
+<script src="http://ciandcd.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
+<link href="http://ciandcd.github.io/feeds/rss.xml" rel="alternate" type="application/atom+xml" title="news.ciandcd.com RSS" />
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch({
+          'mode': 'json',
+          'contentLocation': 'tipuesearch_content.json'
+     });
+});
+</script>
+
+
+  <!--[if lt IE 9]>
+    <script src="https://raw.github.com/aFarkas/html5shiv/master/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<!--
+bootstrap-itech - a Pelican theme using Bootstrap
+-->
+<body>
+
+<!-- Header -->
+<header>
+<div class="container-fluid">
+<h1 class="page-header"><a href="http://ciandcd.github.io/index.html">news.ciandcd.com </a>
+<h4>软件持续集成和发布</h4></h1>
+</div>
+</header>
+<!-- /Header -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://ciandcd.github.io/index.html"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+  <li><a href="http://ciandcd.github.io/index.html">首页</a></li>
+
+  <li class="active"><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li ><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+
+  
+    <li ><a href="http://ciandcd.github.io/pages/about.html">about</a></li>
+    <li ><a href="http://ciandcd.github.io/pages/awesome.html">Awesome</a></li>
+
+
+</ul>
+      <form class="navbar-form navbar-left navbar-search" role="search" action="http://ciandcd.github.io/search.html onsubmit="return validateForm(this.elements['q'].value);">
+        <div class="form-group search-query">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://www.cnblogs.com/itech">itech</a></li>
+        <li><a href="https://github.com/ciandcd">Github</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- Body -->
+<section id="body">
+<div class="container">
+
+<!-- Nav bar -->
+<!-- /Nav bar -->
+
+<!-- Main block -->
+<div class="row">
+
+<!-- Content -->
+<div class="col-lg-9">
+<article>
+<h2>
+    Migrating from chained Freestyle jobs to Pipelines</h2>
+From:<a href="http://feedproxy.google.com/~r/ContinuousBlog/~3/w0VIYgV6amg/">http://feedproxy.google.com/~r/ContinuousBlog/~3/w0VIYgV6amg/</a><br><br><div>
+<i class="fa icon-note" title="Note"></i>
+
+
+<p>This is a guest post by <a href="https;//github.com/rtyler">R. Tyler Croy</a>, who is a
+long-time contributor to Jenkins and the primary contact for Jenkins project
+infrastructure. He is also a Jenkins Evangelist at
+<a href="http://cloudbees.com">CloudBees, Inc.</a></p>
+
+<p>For ages I have used the "Build After" feature in Jenkins to cobble together
+what one might refer to as a "pipeline" of sorts. The Jenkins project itself, a
+major consumer of Jenkins, has used these daisy-chained Freestyle jobs to drive
+a myriad of delivery pipelines in our infrastructure.</p>
+<p>One such "pipeline" helped drive the complex process of generating the pretty
+blue charts on
+<a href="http://stats.jenkins-ci.org/jenkins-stats/svg/svgs.html">stats.jenkins-ci.org</a>.
+This statistics generation process primarily performs two major tasks, on rather
+large sets of data:</p>
+<ol class="arabic"><li>
+<p>Generate aggregate monthly "census data."</p>
+</li>
+<li>
+<p>Process the census data and create trend charts</p>
+</li>
+</ol><p>The chained jobs allowed us to resume the independent stages of the pipeline,
+and allowed us to run different stages on different hardware (different
+capabilities) as needed. Below is a diagram of what this looked like:</p>
+<img src="/images/post-images/freestyle-to-pipeline-2016/freestyle-pipeline.png" alt="freestyle pipeline"><p>The <code>infra_generate_monthly_json</code> would run periodically creating the
+aggregated census data, which would then be picked up by <code>infra_census_push</code>
+whose sole responsibility was to take census data and publish it to the
+necessary hosts inside the project&#8217;s infrastructure.</p>
+<p>The second, semi-independent, "pipeline" would also run periodically. The
+<code>infra_statistics</code> job&#8217;s responsibility was to use the census data, pushed
+earlier by <code>infra_census_push</code>, to generate the myriad of pretty blue charts
+before triggering the
+<code>infra_checkout_stats</code> job which would make sure <code>stats.jenkins-ci.org</code> was
+properly updated.</p>
+<p>Suffice it to say, this "pipeline" had grown organically over a period time when
+<a http: feedproxy.google.com doc pipeline>more advanced tools</a> weren&#8217;t quite available.</p>
+<p>When we migrated to newer infrastructure for
+<a href="https://ci.jenkins.io">ci.jenkins.io</a> earlier this year I took the
+opportunity to do some cleaning up. Instead of migrating jobs verbatim, I pruned
+stale jobs and refactored a number of others into proper
+<a http: feedproxy.google.com solutions pipeline>Pipelines</a>, statistics generation being an obvious
+target!</p>
+<p>Our requirements for statistics generation, in their most basic form, are:</p>
+<ul><li>
+<p>Enable a sequence of dependent tasks to be executed as a logical group (a
+pipeline)</p>
+</li>
+<li>
+<p>Enable executing those dependent tasks on various pieces of infrastructure
+which support different requirements</p>
+</li>
+<li>
+<p>Actually generate those pretty blue charts</p>
+</li>
+</ul>
+<i class="fa icon-note" title="Note"></i>
+
+
+<p>If you wish to skip ahead, you can jump straight to the
+<a href="https://github.com/jenkins-infra/infra-statistics/blob/a6dcaa29fca9a4f61143954fb9e1300c2f995a89/Jenkinsfile">Jenkinsfile</a>
+which implements our new Pipeline.</p>
+
+<p>The first iteration of the <code>Jenkinsfile</code> simply defined the conceptual stages we
+would need:</p>
+<pre class="CodeRay highlight nowrap"><code>node {
+    stage <p><p>'</p><p>Sync raw data and census files</p><p>'</p></p>
+
+    stage <p><p>'</p><p>Process raw logs</p><p>'</p></p>
+
+    stage <p><p>'</p><p>Generate census data</p><p>'</p></p>
+
+    stage <p><p>'</p><p>Generate stats</p><p>'</p></p>
+
+    stage <p><p>'</p><p>Publish census</p><p>'</p></p>
+
+    stage <p><p>'</p><p>Publish stats</p><p>'</p></p>
+}</code></pre>
+<p>How exciting! Although not terrifically useful. When I began actually
+implementing the first couple stages, I noticed that the Pipeline might sync
+dozens of gigabytes of data every time it ran on a new agent in the cluster.
+While this problem will soon be solved by the
+<a href="https://github.com/jenkinsci/external-workspace-manager-plugin">External
+Workspace Manager plugin</a>, which is currently being developed. Until it&#8217;s ready,
+I chose to mitigate the issue by pinning the execution to a consistent agent.</p>
+<pre class="CodeRay highlight nowrap"><code><p>/* `census` is a node label for a single machine, ideally, which will be
+ * consistently used for processing usage statistics and generating census data
+ */</p>
+node(<p><p>'</p><p>census &amp;&amp; docker</p><p>'</p></p>) {
+    <p>/* .. */</p>
+}</code></pre>
+<p>Restricting a workload which previously used multiple agents to a single one
+introduced the next challenge. As an infrastructure administrator, technically
+speaking, I could just install all the system dependencies that I want on this
+one special Jenkins agent. But what kind of example would that be setting!</p>
+<p>The statistics generation process requires:</p>
+<ul><li>
+<p>JDK8</p>
+</li>
+<li>
+<p><a href="https://www.groovy-lang.org">Groovy</a></p>
+</li>
+<li>
+<p>A running <a href="https://www.mongodb.org/">MongoDB</a> instance</p>
+</li>
+</ul><p>Fortunately, with Pipeline we have a couple of useful features at our disposal:
+tool auto-installers and the
+<a href="https://go.cloudbees.com/docs/cloudbees-documentation/cje-user-guide/chapter-docker-workflow.html">CloudBees
+Docker Pipeline plugin</a>.</p>
+<h3 id="tool-auto-installers"><a class="anchor" href="#tool-auto-installers"></a>Tool Auto-Installers</h3>
+<p>Tool Auto-Installers are exposed in Pipeline through the <code>tool</code> step and on
+<a href="https://ci.jenkins.io">ci.jenkins.io</a> we already had JDK8 and Groovy
+available. This meant that the <code>Jenkinsfile</code> would invoke <code>tool</code> and Pipeline
+would automatically install the desired tool on the agent executing the current
+Pipeline steps.</p>
+<p>The <code>tool</code> step does not modify the <code>PATH</code> environment variable, so it&#8217;s usually
+used in conjunction with the <code>withEnv</code> step, for example:</p>
+<pre class="CodeRay highlight nowrap"><code>node(<p><p>'</p><p>census &amp;&amp; docker</p><p>'</p></p>) {
+    <p>/* .. */</p>
+
+    <p>def</p> javaHome = tool(<p>name</p>: <p><p>'</p><p>jdk8</p><p>'</p></p>)
+    <p>def</p> groovyHome = tool(<p>name</p>: <p><p>'</p><p>groovy</p><p>'</p></p>)
+
+    <p>/* Set up environment variables for re-using our auto-installed tools */</p>
+    <p>def</p> customEnv = [
+        <p><p>"</p><p>PATH+JDK=</p><p><p>${</p>javaHome<p>}</p></p><p>/bin</p><p>"</p></p>,
+        <p><p>"</p><p>PATH+GROOVY=</p><p><p>${</p>groovyHome<p>}</p></p><p>/bin</p><p>"</p></p>,
+        <p><p>"</p><p>JAVA_HOME=</p><p><p>${</p>javaHome<p>}</p></p><p>"</p></p>,
+    ]
+
+    <p>/* use our auto-installed tools */</p>
+    withEnv(customEnv) {
+        sh <p><p>'</p><p>java --version</p><p>'</p></p>
+    }
+
+    <p>/* .. */</p>
+}</code></pre>
+<h3 id="cloudbees-docker-pipeline-plugin"><a class="anchor" href="#cloudbees-docker-pipeline-plugin"></a>CloudBees Docker Pipeline plugin</h3>
+<p>Satisfying the MongoDB dependency would still be tricky. If I caved in and installed
+MongoDB on a single unicorn agent in the cluster, what could I say the next time
+somebody asked for a special, one-off, piece of software installed on our
+Jenkins build agents?</p>
+<p>After doing my usual complaining and whining, I discovered that the CloudBees
+Docker Pipeline plugin provides the ability to <strong>run containers</strong> inside of a
+<code>Jenkinsfile</code>. To make things even better, there are
+<a href="https://hub.docker.com/_/mongo/">official MongoDB docker images</a> readily
+available on DockerHub!</p>
+<p>This feature requires that the machine has a running Docker daemon which is
+accessible to the user running the Jenkins agent. After that, running a
+container in the background is easy, for example:</p>
+<pre class="CodeRay highlight nowrap"><code>node(<p><p>'</p><p>census &amp;&amp; docker</p><p>'</p></p>) {
+    <p>/* .. */</p>
+
+    <p>/* Run MongoDB in the background, mapping its port 27017 to our host's port
+     * 27017 so our script can talk to it, then execute our Groovy script with
+     * tools from our `customEnv`
+     */</p>
+    docker.image(<p><p>'</p><p>mongo:2</p><p>'</p></p>).withRun(<p><p>'</p><p>-p 27017:27017</p><p>'</p></p>) { container -&gt;
+        withEnv(customEnv) {
+            sh <p><p>"</p><p>groovy parseUsage.groovy --logs </p><p><p>${</p>usagestats_dir<p>}</p></p><p> --output </p><p><p>${</p>census_dir<p>}</p></p><p> --incremental</p><p>"</p></p>
+        }
+    }
+
+    <p>/* .. */</p>
+}</code></pre>
+<p>The beauty, to me, of this example is that you can pass a
+<a href="http://www.groovy-lang.org/Closures">closure</a> to <code>withRun</code> which will
+execute while the container is running. When the closure is finished executin,
+just the <code>sh</code> step in this case, the container is destroyed.</p>
+<p>With that system requirement satisfied, the rest of the stages of the Pipeline
+fell into place. We now have a single source of truth, the
+<a href="https://github.com/jenkins-infra/infra-statistics/blob/master/Jenkinsfile">Jenkinsfile</a>,
+for the sequence of dependent tasks which need to be executed, accounting for
+variations in systems requirements, and it actually generates
+<a href="http://stats.jenkins-ci.org/jenkins-stats/svg/svgs.html">those pretty
+blue charts</a>!</p>
+<p>Of course, a nice added bonus is the beautiful visualization of our
+<a href="https://ci.jenkins.io/job/Infrastructure/job/statistics/">new Pipeline</a>!</p>
+<img src="/images/post-images/freestyle-to-pipeline-2016/stats-pipeline.png" alt="The New and Improved Statistics Pipeline"></div>
+
+<p class="info">
+<h4>
+Posted Wed 29 June 2016
+ by <a class="url fn" href="http://ciandcd.github.io/author/itech001.html">itech001</a>
+in <a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a>
+(<a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a>)</h4></p>
+
+</article>
+</div>
+<!-- /Content -->
+
+<!-- Side bar -->
+<nav class="col-lg-3">
+
+<h2>分类</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li class="active"><a href="http://ciandcd.github.io/category/ciandcd.html">ciandcd</a></li>
+  <li ><a href="http://ciandcd.github.io/category/devops.html">devops</a></li>
+  <li ><a href="http://ciandcd.github.io/category/scm.html">scm</a></li>
+</ul>
+
+<h2>标签</h2>
+<ul class="tagcloud">
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/finalbuilder.html">finalbuilder</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/jenkins.html">jenkins</a></li>
+        <li class="tag-1"><a href="http://ciandcd.github.io/tag/devops.html">devops</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/ciandcd.html">ciandcd</a></li>
+        <li class="tag-2"><a href="http://ciandcd.github.io/tag/perforce.html">perforce</a></li>
+</ul>
+
+<h2>链接</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://www.cnblogs.com/itech/">itech</a></li>
+  <li><a href="http://www.ciandcd.com">ciandcd</a></li>
+</ul>
+
+<h2>联系</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="http://ciandcd.github.io/feeds/rss.xml" type="application/rss+xml" rel="alternate">Site Feed</a></li>
+  <li><a href="https://github.com/ciandcd">Github</a></li>
+</ul>
+
+<h2>作者</h2>
+<ul class="nav nav-pills nav-stacked">
+  <li ><a href="http://ciandcd.github.io/author/about-the-author.html">About The Author</a></li>
+  <li ><a href="http://ciandcd.github.io/author/alex-staveley.html">Alex Staveley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/antti-virtanen.html">Antti Virtanen</a></li>
+  <li ><a href="http://ciandcd.github.io/author/barton-george.html">Barton George</a></li>
+  <li ><a href="http://ciandcd.github.io/author/elizabeth-geno.html">Elizabeth Geno</a></li>
+  <li ><a href="http://ciandcd.github.io/author/florian-motlik.html">Florian Motlik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/gene-kim.html">Gene Kim</a></li>
+  <li ><a href="http://ciandcd.github.io/author/itech001.html">itech001</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jez-humble.html">Jez Humble</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-cook.html">John Cook</a></li>
+  <li ><a href="http://ciandcd.github.io/author/john-esser.html">John Esser</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jules-louis.html">Jules Louis</a></li>
+  <li ><a href="http://ciandcd.github.io/author/jullietta-jung.html">Jullietta Jung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/kobi-halperin.html">Kobi Halperin</a></li>
+  <li ><a href="http://ciandcd.github.io/author/meta-brown.html">Meta Brown</a></li>
+  <li ><a href="http://ciandcd.github.io/author/michelle-d-souza.html">Michelle D Souza</a></li>
+  <li ><a href="http://ciandcd.github.io/author/nathaniel-eliot.html">Nathaniel Eliot</a></li>
+  <li ><a href="http://ciandcd.github.io/author/patrik-carlos.html">Patrik Carlos</a></li>
+  <li ><a href="http://ciandcd.github.io/author/peter-spung.html">Peter Spung</a></li>
+  <li ><a href="http://ciandcd.github.io/author/piotr-oktaba.html">Piotr Oktaba</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ragnar-lonn.html">Ragnar Lönn</a></li>
+  <li ><a href="http://ciandcd.github.io/author/ralph-tice.html">Ralph Tice</a></li>
+  <li ><a href="http://ciandcd.github.io/author/scuzza-man.html">Scuzza Man</a></li>
+  <li ><a href="http://ciandcd.github.io/author/sven-malvik.html">Sven Malvik</a></li>
+  <li ><a href="http://ciandcd.github.io/author/tony-bradley.html">Tony Bradley</a></li>
+  <li ><a href="http://ciandcd.github.io/author/william-pietri.html">William Pietri</a></li>
+  <li ><a href="http://ciandcd.github.io/author/yegor-bugayenko.html">Yegor Bugayenko</a></li>
+</ul>
+
+</nav>
+<!-- /Side bar -->
+
+</div>
+<!-- /Main block -->
+
+<!-- Footer -->
+<div class="row"><div class="col-lg-12">
+<footer><small>
+软件持续集成和持续发布 QQ群：172758282. <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=d15cb26237b499f41b21a6e95ddc436766a383a725106a92bd69cdf860a64d34"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ciandcd.com" title="ciandcd.com"></a>
+</small></footer>
+</div></div>
+<!-- /Footer -->
+
+</div></section>
+<!-- /Body -->
+
+<script src="http://ciandcd.github.io/theme/js/jquery.js"></script>
+<script src="http://ciandcd.github.io/theme/js/bootstrap.js"></script>
+
+
+</body>
+</html>
